@@ -1,15 +1,64 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
+import 'css/common.css'
+import './index.css'
 
-Vue.config.productionTip = false
+import Vue from 'vue';
+import axios from 'axios'
+import url from 'js/api.js'
 
-/* eslint-disable no-new */
+import Foot from 'components/Foot.vue'
+import Swiper from 'components/Swiper'
+
+import {
+  InfiniteScroll
+} from 'mint-ui';
+Vue.use(InfiniteScroll);
+
 new Vue({
   el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+  data: {
+    lists: null,
+    pageNum: 1,
+    pageSize: 6,
+    loading: false, // false 表示可以继续加载
+    allLoaded: false // 是否完全加载
+  },
+  created() {
+    this.getLists()
+    this.getBanner()
+  },
+  methods: {
+    getLists() {
+      if (this.allLoaded) {
+        return
+      }
+      this.loading = true
+      axios.get(url.hostLists, {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }).then(res => {
+        let curLists = res.data.lists
+        if (curLists.length < this.pageSize) {
+          this.allLoaded = true
+        }
+        if (this.lists) {
+          this.lists = this.lists.concat(curLists)
+        } else {
+          // 第一次请求数据
+          this.lists = curLists
+        }
+        this.loading = false
+        this.pageNum++
+      })
+
+    },
+    getBanner(){
+      axios.get(url.banner).then(res=>{
+        this.bannerLists = res.data.lists
+      })
+    }
+  },
+  components: {
+    Foot, // es6简洁写法(当值与变量名相同时)，相当于 Foot: Foot
+    Swiper
+  }
 })
