@@ -6,7 +6,7 @@ import axios from 'axios'
 import url from 'js/api.js'
 
 import Foot from 'components/Foot.vue'
-import Swiper from 'components/Swiper'
+import Swipe from 'components/Swipe'
 
 import {
   InfiniteScroll
@@ -20,7 +20,8 @@ new Vue({
     pageNum: 1,
     pageSize: 6,
     loading: false, // false 表示可以继续加载
-    allLoaded: false // 是否完全加载
+    allLoaded: false, // 是否完全加载
+    bannerLists: null
   },
   created() {
     this.getLists()
@@ -59,6 +60,6 @@ new Vue({
   },
   components: {
     Foot, // es6简洁写法(当值与变量名相同时)，相当于 Foot: Foot
-    Swiper
+    Swipe
   }
 })
