@@ -1,6 +1,10 @@
 let url = {
     hostLists: '/index/hotLists',
-    banner: '/index/banner'
+    banner: '/index/banner',
+    topList: '/category/topList',
+    rank: '/category/rank',
+    subList: '/category/subList',
+
 }
 
 //  开发环境和真实环境的切换
