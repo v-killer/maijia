@@ -17,7 +17,7 @@ new Vue({
   el: '#app',
   data: {
     lists: null,
-    pageNum: 1,
+    pageNum: 0,
     pageSize: 6,
     loading: false, // false 表示可以继续加载
     allLoaded: false, // 是否完全加载
@@ -41,12 +41,14 @@ new Vue({
         if (curLists.length < this.pageSize) {
           this.allLoaded = true
         }
-        if (this.lists) {
-          this.lists = this.lists.concat(curLists)
-        } else {
-          // 第一次请求数据
-          this.lists = curLists
-        }
+        
+        this.lists ? this.lists = this.lists.concat(curLists) : this.lists = curLists
+        // if (this.lists) {
+        //   this.lists = this.lists.concat(curLists)
+        // } else {
+        //   // 第一次请求数据
+        //   this.lists = curLists
+        // }
         this.loading = false
         this.pageNum++
       })
